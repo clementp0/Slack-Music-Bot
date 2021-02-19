@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\Json;
 
 class UserController extends AbstractController
 {
@@ -14,9 +16,6 @@ class UserController extends AbstractController
      */
     public function index($request)
     {
-        $data = ["falcon", "sky", "cloud", "orange", "wood", "forest"];
-
-        header('Content-type:application/json;charset=utf-8');
-        echo json_encode($data[0]);
+        return new JsonResponse('test');
     }
 }
