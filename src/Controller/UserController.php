@@ -15,7 +15,7 @@ class UserController extends AbstractController
         $struct = [
             "blocks" => 
             [
-                [,
+                [
                     "type" => "section", "text" => ["type" => "mrkdwn", "text" => $message]]]];
         return (
             new JsonResponse($struct)
