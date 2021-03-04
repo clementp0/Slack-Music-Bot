@@ -11,14 +11,14 @@ class UserController extends AbstractController
      */
     public function index(Request $request)
     {
-        $message = "Hey <@".$request->request->get('user_id').">, how\'s it going ?";
+        $message = "Hey <@".$request->request->get('team_id').">, how\'s it going ?";
         $struct = [
             "blocks" => 
             [
                 [
                     "type" => "section", "text" => ["type" => "mrkdwn", "text" => $message]]]];
         return (
-            new JsonResponse($request->request->get)
+            new JsonResponse($struct)
             
     );
     }
