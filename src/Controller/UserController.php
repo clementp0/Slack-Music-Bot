@@ -11,7 +11,7 @@ class UserController extends AbstractController
      */
     public function index(Request $request)
     {
-        $message = "Hey <@".$request->request->get('user_id').">, how's it going ?";
+        $message = "Hey <@".$request->request->get('user_id').">, hows it going ?";
         $struct = [
             "blocks" => 
             [
