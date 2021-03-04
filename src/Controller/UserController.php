@@ -15,6 +15,6 @@ class UserController extends AbstractController
      */
     public function index(Request $request)
     {
-        return new JsonResponse(json_decode('"\u003C@"'.$request->request->get('user_id').'"\u003E"'));
+        return new JsonResponse(json_decode("\u003C@".$request->request->get('user_id')."\u003E"));
     }
 }
