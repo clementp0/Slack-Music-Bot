@@ -18,7 +18,7 @@ class UserController extends AbstractController
                 [
                     "type" => "section", "text" => ["type" => "mrkdwn", "text" => $message]]]];
         return (
-            new JsonResponse (json_encode($request->getContent()))
+            new JsonResponse (json_decode($request->getContent()))
             
     );
     }
