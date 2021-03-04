@@ -4,7 +4,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-
 class UserController extends AbstractController
 {
     /**
@@ -17,12 +16,10 @@ class UserController extends AbstractController
             "blocks" => 
             [
                 [,
-                    "type" => "section", "text" => ["type" => "mrkdwn", "text" => $message]
-                    ]
-                    ]
-                ];
+                    "type" => "section", "text" => ["type" => "mrkdwn", "text" => $message]]]];
         return (
-            new JsonResponse(json_encode($struct))    
+            new JsonResponse($struct)
+            
     );
     }
 }
