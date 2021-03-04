@@ -11,12 +11,10 @@ class UserController extends AbstractController
      */
     public function index(Request $request)
     {
-        $message = "Hey <@>, thanks for submitting your report!";
-        $struct = [
-            "blocks" => 
-            [
-                [
-                    "type" => "section", "text" => ["type" => "mrkdwn", "text" => $message]]]];
+        $message = "Hey <@U024BE7LH>, thanks for submitting your report!";
+           $struct = [
+        "blocks" => [[ "type" => "section", "text" => ["type" => "mrkdwn", "text" => $message]]]
+];
         return new JsonResponse($struct);
     }
 }
