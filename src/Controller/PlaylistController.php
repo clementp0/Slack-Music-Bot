@@ -13,8 +13,11 @@ class PlaylistController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('playlist/index.html.twig', [
+        dd($this->render('playlist/index.html.twig', [
             'controller_name' => 'PlaylistController',
-        ]);
+            'GET',
+            'https://api.spotify.com',
+            'https://accounts.spotify.com'
+        ]));
     }
 }
