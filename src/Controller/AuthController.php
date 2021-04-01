@@ -1,26 +1,106 @@
 <?php
+
 namespace App\Controller;
+
+use SpotifyWebAPI\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-class UserController extends AbstractController
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\Session as RequestSpotify;
+use Symfony\Component\HttpFoundation\Response;
+use SpotifyWebAPI\SpotifyWebAPI;
+
+class AuthController extends AbstractController
 {
-    /**
-     * @Route("/user", name="user")
-     */
-    public function index(Request $request)
+    private $spotifyParams;
+    private $spotify;
+
+    public function __construct()
     {
-        $message = "Hey <@".$request->getContent().">, how is it going ?";
-        $struct = [
-            "blocks" => 
-            [
-                [
-                    "type" => "section", "text" => ["type" => "mrkdwn", "text" => $message]]]];
-        return (
-            new JsonResponse (json_decode($request->getContent()))
-            
-    );
+        $this->spotifyParams = [
+            'client_id' => 'ead4f33a4b734677a53d154955729f10',
+            'client_secret' => '37fc188e841741ca8ea02228ab1b9407',
+            'scope' => [
+                'user-read-email', 'user-read-private', 'playlist-read-private',
+                'playlist-read-collaborative', 'playlist-modify-public',
+                'playlist-modify-private', 'user-follow-read', 'user-follow-modify'
+            ]
+        ];
+
+        $this->spotify = new Session(
+            $this->spotifyParams['client_id'],
+            $this->spotifyParams['client_secret'],
+            'http://127.0.0.1:8000/login/oauth'
+        );
+    }
+    // src/Controller/AuthController
+    /**
+     * @Route("/login", name="login")
+     */
+    public function login(SessionInterface $session)
+    {
+
+        $options = [
+            'scope' => $this->spotifyParams['scope']
+        ];
+
+        $spotify_auth_url = $this->spotify->getAuthorizeUrl($options);
+
+        return $this->render('auth/login.html.twig', array(
+            'spotify_auth_url' => $spotify_auth_url
+
+        ));
+    }
+
+    // src/Controller/AuthController
+
+    /**
+     * @Route("/login/oauth", name="oauth")
+     */
+    public function oauth(Request $request, SessionInterface $session)
+    {
+
+        $accessCode = $request->get('code');
+        $session->set('accessCode', $accessCode); // symfony session
+
+        $this->spotify->requestAccessToken($accessCode);
+        $accessToken = $this->spotify->getAccessToken();
+        $session->set('accessToken', $accessToken); // symfony session
+
+        return $this->redirectToRoute('profile');
+    }
+
+    /**
+     * @Route("/profile", name="profile")
+     */
+    public function profile(RequestSpotify $request)
+    {
+        $accessToken = $request->get('accessToken');
+        if (!$accessToken) {
+            $request->getFlashBag()->add('error', 'Invalid authorization');
+            $this->redirectToRoute('login');
+        }
+
+        $api = new SpotifyWebAPI();
+        $api->setAccessToken($accessToken);
+
+        $me = $api->me();
+
+        return $this->render('auth/profile.html.twig', array(
+            'me' => $me
+        ));
+    }
+    // src/Controller/AuthController
+
+    /**
+     * @Route("/logout", name="logout")
+     */
+    public function logout(RequestSpotify $request)
+    {
+        $request->clear();
+        $request->getFlashBag()->add('success', 'You have successfully logged out');
+
+        return $this->redirectToRoute('login');
     }
 }
-
