@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session as RequestSpotify;
-use Symfony\Component\HttpFoundation\Response;
 use SpotifyWebAPI\SpotifyWebAPI;
 
 class AuthController extends AbstractController
@@ -87,17 +86,8 @@ class AuthController extends AbstractController
 
         $me = $api->me();
 
-        $this->spotify = new Session(
-            $this->spotifyParams['client_id'],
-            $this->spotifyParams['client_secret'],
-            'https://api.spotify.com/v1/me/playlists'
-        );
-
-
-
         return $this->render('auth/profile.html.twig', array(
-            'me' => $me,
-            'playlists' => $this->spotify
+            'me' => $me
         ));
     }
     // src/Controller/AuthController
