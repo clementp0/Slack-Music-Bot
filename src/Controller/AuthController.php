@@ -87,8 +87,17 @@ class AuthController extends AbstractController
 
         $me = $api->me();
 
+        $this->spotify = new Session(
+            $this->spotifyParams['client_id'],
+            $this->spotifyParams['client_secret'],
+            'https://api.spotify.com/v1/me/playlists'
+        );
+
+
+
         return $this->render('auth/profile.html.twig', array(
-            'me' => $me
+            'me' => $me,
+            'playlists' => $this->spotify
         ));
     }
     // src/Controller/AuthController
