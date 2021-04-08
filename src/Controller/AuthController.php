@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session as RequestSpotify;
 use SpotifyWebAPI\SpotifyWebAPI;
+use GuzzleHttp\Client;
 
 class AuthController extends AbstractController
 {
@@ -84,10 +85,21 @@ class AuthController extends AbstractController
         $api = new SpotifyWebAPI();
         $api->setAccessToken($accessToken);
 
+        $client = new Client();
+        $res = $client->get('https://api.spotify.com/v1/me/playlists', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' =>  'Bearer ' . $accessToken
+            ]
+        ]);
+
         $me = $api->me();
 
         return $this->render('auth/profile.html.twig', array(
-            'me' => $me
+            'me' => $me,
+            'token' => $accessToken,
+            'request' => json_decode($res->getBody()->getContents())
         ));
     }
     // src/Controller/AuthController
