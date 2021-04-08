@@ -1,5 +1,5 @@
 # Slack-Music-Bot
-![WHOUUAHH](https://raw.githubusercontent.com/airdox/twitter2/1bd5b089c00f188eedbc12c4ccc3ee59de528ff2/Banniere.png)
+![WHOUUAHH](https://raw.githubusercontent.com/clementp0/Slack-Music-Bot/master/SMB.png)
 
 ## Contributing
 
