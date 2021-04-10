@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use SpotifyWebAPI\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,7 +50,6 @@ class AuthController extends AbstractController
 
         return $this->render('auth/login.html.twig', array(
             'spotify_auth_url' => $spotify_auth_url
-
         ));
     }
 
@@ -68,6 +68,22 @@ class AuthController extends AbstractController
         $accessToken = $this->spotify->getAccessToken();
         $session->set('accessToken', $accessToken); // symfony session
 
+        //récupère les datas grâce au token
+        $api = new SpotifyWebAPI();
+        $api->setAccessToken($accessToken);
+        $me = $api->me();
+        //envoi les datas vers la bdd
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $user = new User();
+        $user->setName($me->display_name);
+        $user->setToken($accessToken);
+
+        $entityManager->persist($user);
+
+        $entityManager->flush();
+
         return $this->redirectToRoute('profile');
     }
 
@@ -76,14 +92,22 @@ class AuthController extends AbstractController
      */
     public function profile(RequestSpotify $request)
     {
-        $accessToken = $request->get('accessToken');
+        // $accessToken = $request->get('accessToken');
+
+        $accessToken = 0;
+
         if (!$accessToken) {
             $request->getFlashBag()->add('error', 'Invalid authorization');
             $this->redirectToRoute('login');
         }
 
-        $api = new SpotifyWebAPI();
-        $api->setAccessToken($accessToken);
+
+
+        // $api = new SpotifyWebAPI();
+        // $api->setAccessToken($accessToken);
+        // $me = $api->me();
+
+        $me = 0;
 
         $client = new Client();
         $res = $client->get('https://api.spotify.com/v1/me/playlists', [
@@ -93,8 +117,6 @@ class AuthController extends AbstractController
                 'Authorization' =>  'Bearer ' . $accessToken
             ]
         ]);
-
-        $me = $api->me();
 
         return $this->render('auth/profile.html.twig', array(
             'me' => $me,

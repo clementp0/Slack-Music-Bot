@@ -2,7 +2,7 @@
 
     {% block body %}
     <style type="text/css">
-        body { background-color: #DADADA; }
+        
         body > .grid { height: 100%; }
         .column { max-width: 450px; }
       </style>
@@ -16,7 +16,7 @@
         </h2>
         <form class="ui large form">
           <div class="ui stacked segment">
-            <a href="{{ spotify_auth_url }}" class="ui fluid large teal submit button"><i class="spotify icon"></i> Login by Spotify</a>
+            <a href="{{ spotify_auth_url }}" class="ui fluid large teal submit button"><i class="spotify icon"></i> Login with Spotify</a>
           </div>
 
           {% for flashMessage in app.session.flashbag.get('error') %}

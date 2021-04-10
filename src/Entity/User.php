@@ -26,19 +26,17 @@ class User
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Playlist::class, mappedBy="creator", orphanRemoval=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $playlists;
+    private $token;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Playlist::class, inversedBy="users")
+     * @ORM\Column(type="integer")
      */
-    private $followPlaylist;
+    private $id_user_slack;
 
     public function __construct()
     {
-        $this->playlists = new ArrayCollection();
-        $this->followPlaylist = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -58,56 +56,26 @@ class User
         return $this;
     }
 
-    /**
-     * @return Collection|Playlist[]
-     */
-    public function getPlaylists(): Collection
+    public function getToken(): ?string
     {
-        return $this->playlists;
+        return $this->token;
     }
 
-    public function addPlaylist(Playlist $playlist): self
+    public function setToken(?string $token): self
     {
-        if (!$this->playlists->contains($playlist)) {
-            $this->playlists[] = $playlist;
-            $playlist->setCreator($this);
-        }
+        $this->token = $token;
 
         return $this;
     }
 
-    public function removePlaylist(Playlist $playlist): self
+    public function getIdUserSlack(): ?int
     {
-        if ($this->playlists->removeElement($playlist)) {
-            // set the owning side to null (unless already changed)
-            if ($playlist->getCreator() === $this) {
-                $playlist->setCreator(null);
-            }
-        }
-
-        return $this;
+        return $this->id_user_slack;
     }
 
-    /**
-     * @return Collection|Playlist[]
-     */
-    public function getFollowPlaylist(): Collection
+    public function setIdUserSlack(int $id_user_slack): self
     {
-        return $this->followPlaylist;
-    }
-
-    public function addFollowPlaylist(Playlist $followPlaylist): self
-    {
-        if (!$this->followPlaylist->contains($followPlaylist)) {
-            $this->followPlaylist[] = $followPlaylist;
-        }
-
-        return $this;
-    }
-
-    public function removeFollowPlaylist(Playlist $followPlaylist): self
-    {
-        $this->followPlaylist->removeElement($followPlaylist);
+        $this->id_user_slack = $id_user_slack;
 
         return $this;
     }
