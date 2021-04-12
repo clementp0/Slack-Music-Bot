@@ -32,7 +32,6 @@ class AuthController extends AbstractController
         $this->spotify = new Session(
             $this->spotifyParams['client_id'],
             $this->spotifyParams['client_secret'],
-            'http://127.0.0.1:8000/login/oauth'
         );
     }
     // src/Controller/AuthController
