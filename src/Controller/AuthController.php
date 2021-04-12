@@ -32,6 +32,7 @@ class AuthController extends AbstractController
         $this->spotify = new Session(
             $this->spotifyParams['client_id'],
             $this->spotifyParams['client_secret'],
+            'https://smb.clpo.net/login/oauth'
         );
     }
     // src/Controller/AuthController
