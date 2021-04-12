@@ -1,9 +1,12 @@
 <?php
+
 namespace App\Controller;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+
 class UserController extends AbstractController
 {
     /**
@@ -11,16 +14,15 @@ class UserController extends AbstractController
      */
     public function index(Request $request)
     {
-        $message = "Hey <@".$request->getContent().">, how is it going ?";
+        $message = "Hey <@" . $request->getContent() . ">, how is it going ?";
         $struct = [
-            "blocks" => 
+            "blocks" =>
             [
                 [
-                    "type" => "section", "text" => ["type" => "mrkdwn", "text" => $message]]]];
-        return (
-            new JsonResponse (json_decode($request->getContent()))
-            
-    );
+                    "type" => "section", "text" => ["type" => "mrkdwn", "text" => $message]
+                ]
+            ]
+        ];
+        return (new JsonResponse(json_decode($request->getContent())));
     }
 }
-

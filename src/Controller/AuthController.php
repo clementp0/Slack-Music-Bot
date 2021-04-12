@@ -41,7 +41,6 @@ class AuthController extends AbstractController
      */
     public function login(SessionInterface $session)
     {
-
         $options = [
             'scope' => $this->spotifyParams['scope']
         ];
@@ -76,9 +75,12 @@ class AuthController extends AbstractController
 
         $entityManager = $this->getDoctrine()->getManager();
 
+        $idUserSlack = 0;
+
         $user = new User();
         $user->setName($me->display_name);
         $user->setToken($accessToken);
+        $user->setIdUserSlack($idUserSlack);
 
         $entityManager->persist($user);
 
@@ -92,22 +94,14 @@ class AuthController extends AbstractController
      */
     public function profile(RequestSpotify $request)
     {
-        // $accessToken = $request->get('accessToken');
-
-        $accessToken = 0;
-
+        $accessToken = $request->get('accessToken');
         if (!$accessToken) {
             $request->getFlashBag()->add('error', 'Invalid authorization');
             $this->redirectToRoute('login');
         }
 
-
-
-        // $api = new SpotifyWebAPI();
-        // $api->setAccessToken($accessToken);
-        // $me = $api->me();
-
-        $me = 0;
+        $api = new SpotifyWebAPI();
+        $api->setAccessToken($accessToken);
 
         $client = new Client();
         $res = $client->get('https://api.spotify.com/v1/me/playlists', [
@@ -117,6 +111,8 @@ class AuthController extends AbstractController
                 'Authorization' =>  'Bearer ' . $accessToken
             ]
         ]);
+
+        $me = $api->me();
 
         return $this->render('auth/profile.html.twig', array(
             'me' => $me,

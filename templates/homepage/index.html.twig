@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'homepage' %}
+
+{#
+    the homepage is a special page which displays neither a header nor a footer.
+    this is done with the 'trick' of defining empty Twig blocks without any content
+#}
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block body %}
+    <div class="page-header" style="text-align:center;">
+        <h1>ICI CLEMENT</h1>
+    </div>
+
+    <div class="ui middle aligned center aligned grid">
+      <div class="column">
+        <h2 class="ui teal image header">
+          <a href="/login" class="content">
+            Log-in to your account
+          </a>
+        </h2>
+
+      </div>
+    </div>
+
+     
+{% endblock %}
