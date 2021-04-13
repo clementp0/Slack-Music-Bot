@@ -253,3 +253,4 @@ $RECYCLE.BIN/
 
 
 # End of https://www.toptal.com/developers/gitignore/api/composer,symfony,phpstorm,vscode,windows,linux,macos
+.env
