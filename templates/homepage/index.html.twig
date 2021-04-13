@@ -12,22 +12,39 @@
 {% block body %}
 <style>{% include 'css/style.css' %}</style>
 <div class="loaderoverlay"><div class="loader" id="#hideMe"></div></div>
-    <div class="page-header" style="text-align:center;">
-        <h1>ICI CLEMENT</h1>
-    </div>
-
-    <div class="ui middle aligned center aligned grid">
-      <div class="column">
-        <h2 class="ui teal image header">
-          <a href="/login" class="content">
-            Log-in to your account
-          </a>
-        </h2>
-
+<div id="demo">
+  <div class="title">Bring Spotify to your Slack Workspace !</div>
+  <div class="invite-now-wrapper">
+    <div class="invite-now">Invite Now</div>
+    <a href="/login"><div class="invite-now" style="background-color:#00b5ad!important;color:white!important">Login through Spotify</div></a>
+  </div>
+  <div class="slack-app-mount">
+    <div class="slack-app">
+      <div class="app-buttons"></div>
+      <div class="guilds">
+        <div class="guild selected" style="background-image: url(https://cdn.discordapp.com/attachments/546468262423035926/831508755341508658/unknown.png);"></div>
+        <div class="guild" style="background-image: url(https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png);"></div>
+        <div class="guild guild-add"></div>
+      </div>
+      <div class="channels">
+        <div class="header">ECV Digital Bordeaux</div>
+        <div class="channel-wrapper"></div>
+        <div class="user"></div>
+      </div>
+      <div class="chat">
+        <div class="header">general<p>Company-wide announcements and work-based matters</p></div>
+        <div class="messages-wrapper">
+          <div class="messages"></div>
+        </div>
+        <div class="input-wrapper">
+          <div class="input">
+            <textarea placeholder="Message #general" disabled="disabled"></textarea>
+          </div>
+        </div>
       </div>
     </div>
-
-     
+  </div>
+</div>
      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
      <script>{% include 'js/script.js' %}</script>
 {% endblock %}
