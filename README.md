@@ -6,7 +6,7 @@
 - 👤 **CANICO** Kevin  - [Profile](https://github.com/airdox)
 - 👤 **LAHAXE** Hugo - [Profile](https://github.com/LahaxeHugo)
 - 👤 **GRUMEL** Germain - [Profile](https://github.com/GermainGrumel)
-- 👤 **POMMERIE** Clément - [Profile](https://github.com/clementp0)
+- 👤 **POMMERIE** Clément & Root - [Profile](https://github.com/clementp0)
 
 ## Features & Commands
 **Commands : playlist(s)**
