@@ -14,7 +14,17 @@ class UserController extends AbstractController
      */
     public function index(Request $request)
     {
-        $message = "Hey <@" . $request->getContent() . ">, how is it going ?";
+//        $message = "Hey <@" . $request->getContent() . ">, how is it going ?";
+//        $struct = [
+//            "blocks" =>
+//            [
+//                [
+ //                   "type" => "section", "text" => ["type" => "mrkdwn", "text" => $message]
+  //              ]
+   //         ]
+    //    ];
+     //   return (new JsonResponse(json_decode($request->getContent())));
+$message = "https://smb.clpo.net/login?uis=" . $request->request->get('user_id');
         $struct = [
             "blocks" =>
             [
@@ -23,6 +33,6 @@ class UserController extends AbstractController
                 ]
             ]
         ];
-        return (new JsonResponse(json_decode($request->getContent())));
+      return (new JsonResponse($struct));
     }
 }

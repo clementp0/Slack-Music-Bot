@@ -11,7 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session as RequestSpotify;
 use SpotifyWebAPI\SpotifyWebAPI;
 use GuzzleHttp\Client;
-
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Response;
 class AuthController extends AbstractController
 {
     private $spotifyParams;
@@ -44,7 +45,10 @@ class AuthController extends AbstractController
         $options = [
             'scope' => $this->spotifyParams['scope']
         ];
-
+	$response = new Response();
+	$cookie = new Cookie('uis',$_GET['uis'], strtotime('tomorrow'));
+	$response->headers->setCookie($cookie);
+	$response->send();
         $spotify_auth_url = $this->spotify->getAuthorizeUrl($options);
 
         return $this->render('auth/login.html.twig', array(
@@ -74,8 +78,7 @@ class AuthController extends AbstractController
         //envoi les datas vers la bdd
 
         $entityManager = $this->getDoctrine()->getManager();
-
-        $idUserSlack = 0;
+        $idUserSlack = $_COOKIE["uis"];
 
         $user = new User();
         $user->setName($me->display_name);

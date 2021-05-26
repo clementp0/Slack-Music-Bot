@@ -31,7 +31,7 @@ class User
     private $token;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $id_user_slack;
 
@@ -68,12 +68,12 @@ class User
         return $this;
     }
 
-    public function getIdUserSlack(): ?int
+    public function getIdUserSlack(): ?string
     {
         return $this->id_user_slack;
     }
 
-    public function setIdUserSlack(int $id_user_slack): self
+	    public function setIdUserSlack(string $id_user_slack): self
     {
         $this->id_user_slack = $id_user_slack;
 
