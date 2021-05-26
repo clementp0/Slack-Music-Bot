@@ -118,7 +118,7 @@ var channelData = [{
                 name: 'Last Follower',
                 value: users.germain.username
             }],
-            footerIcon: users.clement.avatar,
+            footerIcon: users.germain.avatar,
             footer: 'Requested By ' + users.germain.username
         }
     }]
