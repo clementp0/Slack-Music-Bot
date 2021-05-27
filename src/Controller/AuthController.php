@@ -63,6 +63,21 @@ class AuthController extends AbstractController
      */
     public function oauth(Request $request, SessionInterface $session)
     {
+        
+        
+        $accessCode = $request->get('code');
+        $session->set('accessCode', $accessCode); // symfony session
+        
+        $this->spotify->requestAccessToken($accessCode);
+        $accessToken = $this->spotify->getAccessToken();
+        $session->set('accessToken', $accessToken); // symfony session
+        
+        //récupère les datas grâce au token
+        $api = new SpotifyWebAPI();
+        $api->setAccessToken($accessToken);
+        $me = $api->me();
+        //envoi les datas vers la bdd
+        
         $idUserSlack = $_COOKIE["uis"];
         
         $entityManager = $this->getDoctrine()->getManager();
@@ -72,22 +87,7 @@ class AuthController extends AbstractController
         $user->setIdUserSlack($idUserSlack);
         $entityManager->persist($user);
         $entityManager->flush();
-
-
-        $accessCode = $request->get('code');
-        $session->set('accessCode', $accessCode); // symfony session
-
-        $this->spotify->requestAccessToken($accessCode);
-        $accessToken = $this->spotify->getAccessToken();
-        $session->set('accessToken', $accessToken); // symfony session
-
-        //récupère les datas grâce au token
-        $api = new SpotifyWebAPI();
-        $api->setAccessToken($accessToken);
-        $me = $api->me();
-        //envoi les datas vers la bdd
-
-
+        
         return $this->redirectToRoute('profile');
     }
 
