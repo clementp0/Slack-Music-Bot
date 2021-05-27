@@ -45,10 +45,10 @@ class AuthController extends AbstractController
         $options = [
             'scope' => $this->spotifyParams['scope']
         ];
-	$response = new Response();
-	$cookie = new Cookie('uis',$_GET['uis'], strtotime('tomorrow'));
-	$response->headers->setCookie($cookie);
-	$response->send();
+        $response = new Response();
+        $cookie = new Cookie('uis',$_GET['uis'], strtotime('tomorrow'));
+        $response->headers->setCookie($cookie);
+        $response->send();
         $spotify_auth_url = $this->spotify->getAuthorizeUrl($options);
 
         return $this->render('auth/login.html.twig', array(
@@ -63,6 +63,26 @@ class AuthController extends AbstractController
      */
     public function oauth(Request $request, SessionInterface $session)
     {
+        $idUserSlack = $_COOKIE["uis"];
+        
+        $user = $this->getDoctrine()
+        ->getRepository(User::class)
+        ->findOneBy([
+            'id_user_slack' => $idUserSlack
+            ]));
+
+            var_dump($user);die;
+            
+        if(!$user->id) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $user = new User();
+            $user->setName($me->display_name);
+            $user->setToken($accessToken);
+            $user->setIdUserSlack($idUserSlack);
+            $entityManager->persist($user);
+            $entityManager->flush();
+        }
+
 
         $accessCode = $request->get('code');
         $session->set('accessCode', $accessCode); // symfony session
@@ -77,23 +97,6 @@ class AuthController extends AbstractController
         $me = $api->me();
         //envoi les datas vers la bdd
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $idUserSlack = $_COOKIE["uis"];
-
-        $user = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->findOneBy([
-                'id_user_slack' => $idUserSlack
-            ]));
-
-        if(!$user->id) {
-            $user = new User();
-            $user->setName($me->display_name);
-            $user->setToken($accessToken);
-            $user->setIdUserSlack($idUserSlack);
-            $entityManager->persist($user);
-            $entityManager->flush();
-        }
 
         return $this->redirectToRoute('profile');
     }
