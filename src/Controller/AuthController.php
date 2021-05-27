@@ -87,7 +87,7 @@ class AuthController extends AbstractController
                 'id_user_slack' => $idUserSlack
             ]);
 
-        if($user->getIdUserSlack() === null) {
+        if($user === null) {
             $entityManager = $this->getDoctrine()->getManager();
             $user = new User();
             $user->setName($me->display_name);
