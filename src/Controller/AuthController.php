@@ -80,14 +80,20 @@ class AuthController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $idUserSlack = $_COOKIE["uis"];
 
-        $user = new User();
-        $user->setName($me->display_name);
-        $user->setToken($accessToken);
-        $user->setIdUserSlack($idUserSlack);
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy([
+                'id_user_slack' => $idUserSlack
+            ]));
 
-        $entityManager->persist($user);
-
-        $entityManager->flush();
+        if(!$user->id) {
+            $user = new User();
+            $user->setName($me->display_name);
+            $user->setToken($accessToken);
+            $user->setIdUserSlack($idUserSlack);
+            $entityManager->persist($user);
+            $entityManager->flush();
+        }
 
         return $this->redirectToRoute('profile');
     }
