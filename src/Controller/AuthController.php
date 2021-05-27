@@ -66,12 +66,12 @@ class AuthController extends AbstractController
         $idUserSlack = $_COOKIE["uis"];
         
         $user = $this->getDoctrine()
-        ->getRepository(User::class)
-        ->findOneBy([
-            'id_user_slack' => $idUserSlack
-            ]));
+            ->getRepository(User::class)
+            ->findOneBy([
+                'id_user_slack' => $idUserSlack
+                ]));
 
-            var_dump($user);die;
+        var_dump($user);die;
             
         if(!$user->id) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -99,6 +99,21 @@ class AuthController extends AbstractController
 
 
         return $this->redirectToRoute('profile');
+    }
+
+    /**
+     * @Route("/test", name="test")
+     */
+    public function test() {
+        $idUserSlack = $_COOKIE["uis"];
+        
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy([
+                'id_user_slack' => $idUserSlack
+                ]));
+
+        var_dump($user);die;
     }
 
     /**
