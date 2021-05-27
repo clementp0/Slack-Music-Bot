@@ -101,7 +101,7 @@ class AuthController extends AbstractController
             ->getRepository(User::class)
             ->findOneBy([
                 'id_user_slack' => $idUserSlack
-                ]));
+                ]);
 
         var_dump($user);die;
     }
