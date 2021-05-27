@@ -65,23 +65,13 @@ class AuthController extends AbstractController
     {
         $idUserSlack = $_COOKIE["uis"];
         
-        $user = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->findOneBy([
-                'id_user_slack' => $idUserSlack
-                ]));
-
-        var_dump($user);die;
-            
-        if(!$user->id) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $user = new User();
-            $user->setName($me->display_name);
-            $user->setToken($accessToken);
-            $user->setIdUserSlack($idUserSlack);
-            $entityManager->persist($user);
-            $entityManager->flush();
-        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = new User();
+        $user->setName($me->display_name);
+        $user->setToken($accessToken);
+        $user->setIdUserSlack($idUserSlack);
+        $entityManager->persist($user);
+        $entityManager->flush();
 
 
         $accessCode = $request->get('code');
@@ -106,7 +96,7 @@ class AuthController extends AbstractController
      */
     public function test() {
         $idUserSlack = $_COOKIE["uis"];
-        
+
         $user = $this->getDoctrine()
             ->getRepository(User::class)
             ->findOneBy([
