@@ -7,12 +7,17 @@
   <div class="ui cards">
     <div class="ui raised card">
       <div class="content">
-        <div class="header">{{ me.display_name }} {{ me.country}}</div>
+        <div class="header">{{ me.display_name }}</div>
         <div class="meta">
           <span class="right floated time">
             <a href="{{ me.external_urls.spotify }}" target="_blank"><i class="linkify icon"></i></a>
           </span>
+          
           <span class="category">{{ me.id }}</span>
+        </div>
+        <div class="description">
+        <i class="enveloppe icon"></i>
+          {{ me.email }}
         </div>
         <div class="description">
           {{ me.product }}
