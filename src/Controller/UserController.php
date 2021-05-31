@@ -68,14 +68,14 @@ class UserController extends AbstractController
                 ]
             ]);                   
 
-            $data = json_decode($res->getBody()->getContents())
+            $data = json_decode($res->getBody()->getContents());
     
             $struct = ["blocks" => []];
 
             foreach($data->items as $item) {
                 array_push($struct, [
                         "type" => "section", "text" => ["type" => "mrkdwn", "text" => '<'.$item->href.'|'.$item->name.'>']
-                    ])
+                    ]);
             }
             return (new JsonResponse($struct)); 
         }
