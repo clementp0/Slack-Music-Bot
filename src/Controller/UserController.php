@@ -55,7 +55,7 @@ class UserController extends AbstractController
             ];
             return (new JsonResponse($struct));
         } else {
-            $token = $user->getToken()
+            $token = $user->getToken();
             $api = new SpotifyWebAPI();
             $api->setAccessToken($token);
 
