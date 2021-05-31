@@ -72,7 +72,7 @@ class UserController extends AbstractController
 
             foreach($data->items as $item) {
                 array_push($struct['blocks'], [
-                        "type" => "section", "text" => ["type" => "mrkdwn", "text" => '<'.$item->href.'|'.$item->name.'>']
+                        "type" => "section", "text" => ["type" => "mrkdwn", "text" => '<'.$item->external_urls->spotify.'|'.$item->name.'>']
                     ]);
             }
         
