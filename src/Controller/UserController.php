@@ -56,8 +56,6 @@ class UserController extends AbstractController
             return (new JsonResponse($struct));
         } else {
             $token = $user->getToken();
-            $api = new SpotifyWebAPI();
-            $api->setAccessToken($token);
 
             $client = new Client();
             $res = $client->get('https://api.spotify.com/v1/me/playlists', [
@@ -66,17 +64,25 @@ class UserController extends AbstractController
                     'Content-Type' => 'application/json',
                     'Authorization' =>  'Bearer ' . $token
                 ]
-            ]);                   
+            ]);
 
             $data = json_decode($res->getBody()->getContents());
     
-            $struct = ["blocks" => []];
+            // $struct = ["blocks" => []];
 
-            foreach($data->items as $item) {
-                array_push($struct, [
-                        "type" => "section", "text" => ["type" => "mrkdwn", "text" => '<'.$item->href.'|'.$item->name.'>']
-                    ]);
-            }
+            // foreach($data->items as $item) {
+            //     array_push($struct, [
+            //             "type" => "section", "text" => ["type" => "mrkdwn", "text" => '<'.$item->href.'|'.$item->name.'>']
+            //         ]);
+            // }
+            $struct = [
+                "blocks" =>
+                [
+                    [
+                        "type" => "section", "text" => ["type" => "mrkdwn", "text" => 'toto']
+                    ]
+                ]
+            ];
             return (new JsonResponse($struct)); 
         }
     }
