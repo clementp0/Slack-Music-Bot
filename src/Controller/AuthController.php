@@ -13,6 +13,7 @@ use SpotifyWebAPI\SpotifyWebAPI;
 use GuzzleHttp\Client;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
+
 class AuthController extends AbstractController
 {
     private $spotifyParams;
@@ -83,6 +84,9 @@ class AuthController extends AbstractController
             $accessToken = $this->spotify->getAccessToken();
             // $session->set('accessCode', $accessCode); // symfony session
             // $session->set('accessToken', $accessToken); // symfony session
+            $cookie = new Cookie('accessToken', $accessToken, strtotime('tomorrow'));
+            $response->headers->setCookie($cookie);
+            $response->send();
         }
 
         //récupère les datas grâce au token
@@ -123,12 +127,12 @@ class AuthController extends AbstractController
     /**
      * @Route("/profile", name="profile")
      */
-    public function profile(RequestSpotify $request)
+    public function profile()
     {
-        $accessToken = $request->get('accessToken');
-        var_dump($accessToken);die();
+        $accessToken = $_COOKIE['accessToken'];
+    
         if (!$accessToken) {
-            $request->getFlashBag()->add('error', 'Invalid authorization');
+            // $request->getFlashBag()->add('error', 'Invalid authorization');
             $this->redirectToRoute('login');
         }
 
