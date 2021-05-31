@@ -63,39 +63,44 @@ class AuthController extends AbstractController
      */
     public function oauth(Request $request, SessionInterface $session)
     {
-        
-        
-        $accessCode = $request->get('code');
-        $session->set('accessCode', $accessCode); // symfony session
-        
-        $this->spotify->requestAccessToken($accessCode);
-        $accessToken = $this->spotify->getAccessToken();
-        $session->set('accessToken', $accessToken); // symfony session
-        
-        //récupère les datas grâce au token
-        $api = new SpotifyWebAPI();
-        $api->setAccessToken($accessToken);
-        $me = $api->me();
-        //envoi les datas vers la bdd
-        
-        
         $idUserSlack = $_COOKIE["uis"];
-
+        $entityManager = $this->getDoctrine()->getManager();
+        
         $user = $this->getDoctrine()
             ->getRepository(User::class)
             ->findOneBy([
                 'id_user_slack' => $idUserSlack
             ]);
 
+
+        $accessToken = '';    
+        if($user !== null && false) // TODO: vérifier la validité du token : remplacer le false par la validation du token
+            $accessToken = $user->getToken();
+        
+        if(empty($accessToken)) {
+            $accessCode = $request->get('code');
+            $this->spotify->requestAccessToken($accessCode);
+            $accessToken = $this->spotify->getAccessToken();
+            // $session->set('accessCode', $accessCode); // symfony session
+            // $session->set('accessToken', $accessToken); // symfony session
+        }
+
+        //récupère les datas grâce au token
+        $api = new SpotifyWebAPI();
+        $api->setAccessToken($accessToken);
+        
         if($user === null) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $me = $api->me();
             $user = new User();
             $user->setName($me->display_name);
             $user->setToken($accessToken);
             $user->setIdUserSlack($idUserSlack);
-            $entityManager->persist($user);
-            $entityManager->flush();
+        } else {
+            $user->setToken($accessToken);
         }
+        //envoi les datas vers la bdd
+        $entityManager->persist($user);
+        $entityManager->flush();
         
         return $this->redirectToRoute('profile');
     }
