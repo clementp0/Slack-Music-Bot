@@ -42,7 +42,7 @@ class UserController extends AbstractController
             'id_user_slack' => $request->request->get('user_id')
             ]);
 
-        if(true) {
+        if(false) {
             $message = "https://smb.clpo.net/login?uis=" . $request->request->get('user_id');
             
             $struct = [
@@ -55,31 +55,31 @@ class UserController extends AbstractController
             ];
             return (new JsonResponse($struct));
         } else {
-            // $token = $user->getToken();
-            // $api = new SpotifyWebAPI();
-            // $api->setAccessToken($token);
+            $token = $user->getToken();
+            $api = new SpotifyWebAPI();
+            $api->setAccessToken($token);
 
-            // $client = new Client();
-            // $res = $client->get('https://api.spotify.com/v1/me/playlists', [
-            //     'headers' => [
-            //         'Accept' => 'application/json',
-            //         'Content-Type' => 'application/json',
-            //         'Authorization' =>  'Bearer ' . $token
-            //     ]
-            // ]);                   
+            $client = new Client();
+            $res = $client->get('https://api.spotify.com/v1/me/playlists', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' =>  'Bearer ' . $token
+                ]
+            ]);                   
 
-            // $data = json_decode($res->getBody()->getContents())
-            // $message = '';
+            $data = json_decode($res->getBody()->getContents())
+            $message = '';
     
-            // foreach($data->items as $item) {
-            //     $message = '* '.$item->name .' '. $item->href;
-            // }
+            foreach($data->items as $item) {
+                $message = '* '.$item->name .' '. $item->href;
+            }
 
             $struct = [
                 "blocks" =>
                 [
                     [
-                        "type" => "section", "text" => ["type" => "mrkdwn", "text" => '* toto']
+                        "type" => "section", "text" => ["type" => "mrkdwn", "text" => $message]
                     ]
                 ]
             ];
