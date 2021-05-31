@@ -41,12 +41,11 @@ class AuthController extends AbstractController
     /**
      * @Route("/login", name="login")
      */
-    public function login(SessionInterface $session)
+    public function login(SessionInterface $session, Response $response)
     {
         $options = [
             'scope' => $this->spotifyParams['scope']
         ];
-        $response = new Response();
         $cookie = new Cookie('uis',$_GET['uis'], strtotime('tomorrow'));
         $response->headers->setCookie($cookie);
         $response->send();
@@ -62,7 +61,7 @@ class AuthController extends AbstractController
     /**
      * @Route("/login/oauth", name="oauth")
      */
-    public function oauth(Request $request, SessionInterface $session)
+    public function oauth(Request $request, SessionInterface $session, Response $response)
     {
         $idUserSlack = $_COOKIE["uis"];
         $entityManager = $this->getDoctrine()->getManager();
