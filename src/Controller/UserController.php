@@ -68,13 +68,22 @@ class UserController extends AbstractController
                 ]
             ]);                   
 
-            $me = $api->me();
+            $data = json_decode($res->getBody()->getContents())
+            $message = '';
+    
+            foreach($data->items as $item) {
+                $message = '* '.$item->name .' '. $item->href;
+            }
 
-            return $this->render('auth/profile.html.twig', array(
-                // 'me' => $me,
-                // 'token' => $accessToken,
-                'request' => json_decode($res->getBody()->getContents()->items)
-            ));    
+            $struct = [
+                "blocks" =>
+                [
+                    [
+                        "type" => "section", "text" => ["type" => "mrkdwn", "text" => $message]
+                    ]
+                ]
+            ];
+            return (new JsonResponse($struct)); 
         }
     }
 
