@@ -42,7 +42,7 @@ class UserController extends AbstractController
             'id_user_slack' => $request->request->get('user_id')
             ]);
 
-        if(false) {
+        if(true) {
             $message = "https://smb.clpo.net/login?uis=" . $request->request->get('user_id');
             
             $struct = [
