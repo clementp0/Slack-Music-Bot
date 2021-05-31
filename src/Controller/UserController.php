@@ -68,21 +68,15 @@ class UserController extends AbstractController
                 ]
             ]);                   
 
-            // $data = json_decode($res->getBody()->getContents())
-            // $message = '';
+            $data = json_decode($res->getBody()->getContents())
     
-            // foreach($data->items as $item) {
-                // $message = '<'.$item->href.'|'.$item->name.'>';
-            // }
+            $struct = ["blocks" => []];
 
-            $struct = [
-                "blocks" =>
-                [
-                    [
-                        "type" => "section", "text" => ["type" => "mrkdwn", "text" => 'This is a mrkdwn section block :ghost: *this is bold*, and ~this is crossed out~, and <https://google.com|this is a link>']
-                    ]
-                ]
-            ];
+            foreach($data->items as $item) {
+                array_push($struct, [
+                        "type" => "section", "text" => ["type" => "mrkdwn", "text" => '<'.$item->href.'|'.$item->name.'>']
+                    ])
+            }
             return (new JsonResponse($struct)); 
         }
     }
