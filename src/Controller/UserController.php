@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,20 +36,11 @@ class UserController extends AbstractController
         // Sinon
             // Retourner le lien pour s'authentifier
 
-        $test = [
-            "blocks" =>
-            [
-                [
-                    "type" => "section", "text" => ["type" => "mrkdwn", "text" => $request->request->get('user_id')]
-                ]
-            ]
-        ];
-        return (new JsonResponse($test)); 
-        // $user = $this->getDoctrine()
-        // ->getRepository(User::class)
-        // ->findOneBy([
-        //     'id_user_slack' => $request->request->get('user_id')
-        //     ]);
+        $user = $this->getDoctrine()
+        ->getRepository(User::class)
+        ->findOneBy([
+            'id_user_slack' => $request->request->get('user_id')
+            ]);
 
         if(true) {
             $message = "https://smb.clpo.net/login?uis=" . $request->request->get('user_id');
