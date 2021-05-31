@@ -35,7 +35,15 @@ class UserController extends AbstractController
         // Sinon
             // Retourner le lien pour s'authentifier
 
-            
+        $test = [
+            "blocks" =>
+            [
+                [
+                    "type" => "section", "text" => ["type" => "mrkdwn", "text" => $request->request->get('user_id')]
+                ]
+            ]
+        ];
+        return (new JsonResponse($test)); 
         // $user = $this->getDoctrine()
         // ->getRepository(User::class)
         // ->findOneBy([
