@@ -126,6 +126,7 @@ class AuthController extends AbstractController
     public function profile(RequestSpotify $request)
     {
         $accessToken = $request->get('accessToken');
+        var_dump($accessToken);die();
         if (!$accessToken) {
             $request->getFlashBag()->add('error', 'Invalid authorization');
             $this->redirectToRoute('login');
