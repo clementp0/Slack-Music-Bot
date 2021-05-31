@@ -148,7 +148,7 @@ class AuthController extends AbstractController
         return $this->render('auth/profile.html.twig', array(
             'me' => $me,
             'token' => $accessToken,
-            'request' => json_decode($res->getBody()->getContents())
+            'request' => json_decode($res->getBody()->getContents()->items)
         ));
     }
     // src/Controller/AuthController
