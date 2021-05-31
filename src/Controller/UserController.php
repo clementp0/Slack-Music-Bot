@@ -64,7 +64,7 @@ class UserController extends AbstractController
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
-                    'Authorization' =>  'Bearer ' . $accessToken
+                    'Authorization' =>  'Bearer ' . $token
                 ]
             ]);                   
 
